@@ -52,14 +52,14 @@ function SimplePlayerPage() {
         customType: {
           m3u8: function playM3u8(video, url, art) {
             if (Hls.isSupported()) {
-              if (art.hls) art.hls.destroy();
+              if (art.hls) (art.hls as any).destroy();
               const hls = new Hls();
               const proxyUrl = localStorage.getItem("m3u8ProxySelected");
               const finalUrl = proxyUrl ? `${proxyUrl}${url}` : url;
               hls.loadSource(finalUrl);
               hls.attachMedia(video);
               art.hls = hls;
-              art.on("destroy", () => hls.destroy());
+              art.on("destroy", () => (hls as any).destroy());
             } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
               const proxyUrl = localStorage.getItem("m3u8ProxySelected");
               const finalUrl = proxyUrl ? `${proxyUrl}${url}` : url;
